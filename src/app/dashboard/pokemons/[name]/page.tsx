@@ -7,24 +7,25 @@ import { notFound } from "next/navigation";
 export const revalidate = 60;
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ name: string }>;
 }
 
 //! En build time
 export async function generateStaticParams() {
-  const static151Pokemons = Array.from({ length: 151 }).map(
-    (v, i) => `${i + 1}`
+  const response = await axios.get(
+    `https://pokeapi.co/api/v2/pokemon?limit=151`
   );
 
-  return static151Pokemons.map((id) => ({
-    id,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return response.data.results.map(({ name }: any) => ({
+    name,
   }));
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   try {
     const params = await props.params;
-    const { id, name } = await getPokemon(params.id);
+    const { id, name } = await getPokemon(params.name);
 
     return {
       title: `#${id} - ${name}`,
@@ -39,9 +40,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 }
 
-const getPokemon = async (id: string): Promise<Pokemon> => {
+const getPokemon = async (name: string): Promise<Pokemon> => {
   try {
-    const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    const pokemon = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${name}`
+    );
 
     return pokemon.data;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,8 +54,8 @@ const getPokemon = async (id: string): Promise<Pokemon> => {
 };
 
 export default async function PokemonPage({ params }: Props) {
-  const { id } = await params;
-  const pokemon = await getPokemon(id);
+  const { name } = await params;
+  const pokemon = await getPokemon(name);
 
   return (
     <div className="flex mt-5 flex-col items-center text-slate-800">

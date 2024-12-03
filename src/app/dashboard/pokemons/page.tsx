@@ -1,6 +1,11 @@
 import axios from "axios";
 import { PokemonsGrid, PokemonsResponse } from "@/pokemons";
 
+export const metadata = {
+  title: "151 Pokemons",
+  description: "Esta pagina contiene 151 pokemons.",
+};
+
 export const revalidate = 60;
 
 const getPokemons = async (limit = 20, offset = 0) => {
