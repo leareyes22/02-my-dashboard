@@ -1,11 +1,11 @@
 "use client";
 
 import { IoHeartOutline } from "react-icons/io5";
-import { selectPokemons, useAppSelector } from "@/store";
+import { getFavoritePokemons, useAppSelector } from "@/store";
 import { PokemonsGrid } from "./PokemonsGrid";
 
 export const FavoritePokemons = () => {
-  const favoritePokemons = useAppSelector(selectPokemons);
+  const favoritePokemons = useAppSelector(getFavoritePokemons);
 
   return (
     <>

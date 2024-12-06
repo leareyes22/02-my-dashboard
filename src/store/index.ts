@@ -1,4 +1,4 @@
-import { configureStore, createSelector } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import counterReducer from "./counter/counterSlice";
 import pokemonsReducer from "./pokemons/pokemonsSlice";
@@ -19,7 +19,5 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const selectPokemons = createSelector(
-  (state: RootState) => state.pokemons,
-  (pokemons) => pokemons.favorites
-);
+export const getFavoritePokemons = (state: RootState) =>
+  state.pokemons.favorites;
