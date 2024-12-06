@@ -1,10 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createSelector } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import counterReducer from "./counter/counterSlice";
+import pokemonsReducer from "./pokemons/pokemonsSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    pokemons: pokemonsReducer,
   },
 });
 
@@ -16,3 +18,8 @@ export type AppDispatch = typeof store.dispatch;
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export const selectPokemons = createSelector(
+  (state: RootState) => state.pokemons,
+  (pokemons) => pokemons.favorites
+);
